@@ -3,11 +3,18 @@ import 'package:flutter/material.dart';
 
 class ToDoListTile extends StatelessWidget {
   final String task;
-  
-  
+  final List todo;
+  final Widget remove;
+  final Widget edit;
+  final bool complete;
+
   const ToDoListTile({
     super.key,
     required this.task,
+    required this.todo,
+    required this.remove,
+    required this.edit,
+    required this.complete,
   });
 
   @override
@@ -30,9 +37,8 @@ class ToDoListTile extends StatelessWidget {
           children: [
 
             Row(
-
               children: [
-                Checkbox(value: false, onChanged: (p0){},),
+                Checkbox(value: complete, onChanged: (tre){},),
                 const SizedBox(width: 1,),
                 Text(
                   task,
@@ -41,8 +47,8 @@ class ToDoListTile extends StatelessWidget {
             ),
             Column(
               children: [
-                IconButton(onPressed: (){}, icon: Icon(Icons.edit)),
-                IconButton(onPressed: (){}, icon: Icon(Icons.delete)),
+                edit,
+                remove
               ],
             )
           ],
