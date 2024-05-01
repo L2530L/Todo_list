@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 import '../components/ToDoListTile.dart';
 
@@ -13,11 +12,14 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   TextEditingController addController = TextEditingController();
   List<Map<String, dynamic>> todo = [
-    {'task': 'Play 7 hours straight', 'taskCompleted': false},
+    {
+      'task': 'Play 7 hours straight',
+      'taskCompleted': false,
+    },
     {
       'task': 'Sleep 1 hour',
       'taskCompleted': false,
-    }
+    },
   ];
 
   void openAdd({int? index}) {
@@ -26,13 +28,17 @@ class _HomePageState extends State<HomePage> {
       builder: (context) => AlertDialog(
         content: TextField(
           controller: addController,
+          decoration: const InputDecoration(
+            border: OutlineInputBorder(),
+          ),
         ),
         actions: [
           ElevatedButton(
             onPressed: index == null
                 ? () {
                     setState(() {
-                      todo.add({'task': addController.text});
+                      todo.add(
+                          {'task': addController.text, 'taskCompleted': false});
                     });
                     Navigator.pop(context);
                     addController.clear();
@@ -44,7 +50,7 @@ class _HomePageState extends State<HomePage> {
                     Navigator.pop(context);
                     addController.clear();
                   },
-            child: Icon(Icons.add),
+            child: const Icon(Icons.add),
           )
         ],
       ),
@@ -55,31 +61,40 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('todo list'),
+        title: const Text('todo list'),
         backgroundColor: Colors.amber,
       ),
       body: ListView.builder(
-          itemCount: todo.length,
-          itemBuilder: (context, index) {
-            return ToDoListTile(
-              task: todo[index]['task'],
-              todo: todo,
-              edit: IconButton(
-                  onPressed: () => openAdd(index: index),
-                  icon: Icon(Icons.edit)),
-              remove: IconButton(
-                  onPressed: () {
-                    setState(() {
-                      todo.remove(todo[index]);
-                    });
-                  },
-                  icon: Icon(Icons.delete)),
-              complete: todo[index]['taskCompleted'],
-            );
-          }),
+        itemCount: todo.length,
+        itemBuilder: (context, index) {
+          return ToDoListTile(
+            task: todo[index]['task'],
+            todo: todo,
+            edit: IconButton(
+                onPressed: () => openAdd(index: index),
+                icon: const Icon(Icons.edit)),
+            remove: IconButton(
+                onPressed: () {
+                  setState(() {
+                    todo.remove(todo[index]);
+                  });
+                },
+                icon: const Icon(Icons.delete)),
+            complete: todo[index]['taskCompleted'],
+            value: todo[index]['taskCompleted'],
+            onChanged: (checked) {
+              setState(
+                () {
+                  todo[index]['taskCompleted'] = checked;
+                },
+              );
+            },
+          );
+        },
+      ),
       floatingActionButton: FloatingActionButton(
         onPressed: openAdd,
-        child: Icon(Icons.add),
+        child: const Icon(Icons.add),
       ),
     );
   }

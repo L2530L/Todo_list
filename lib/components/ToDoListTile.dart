@@ -7,6 +7,8 @@ class ToDoListTile extends StatelessWidget {
   final Widget remove;
   final Widget edit;
   final bool complete;
+  final bool value;
+  final void Function(bool?) onChanged;
 
   const ToDoListTile({
     super.key,
@@ -15,6 +17,8 @@ class ToDoListTile extends StatelessWidget {
     required this.remove,
     required this.edit,
     required this.complete,
+    required this.value,
+    required this.onChanged,
   });
 
   @override
@@ -27,8 +31,8 @@ class ToDoListTile extends StatelessWidget {
       ),
 
       child: Container(
-        padding: EdgeInsets.all(15),
-        decoration: BoxDecoration(
+        padding: const EdgeInsets.all(15),
+        decoration: const BoxDecoration(
           color: Colors.blue
         ),
 
@@ -38,7 +42,10 @@ class ToDoListTile extends StatelessWidget {
 
             Row(
               children: [
-                Checkbox(value: complete, onChanged: (tre){},),
+                Checkbox(
+                value: value,
+                onChanged: onChanged,
+              ),
                 const SizedBox(width: 1,),
                 Text(
                   task,
